@@ -10,11 +10,15 @@ Route::get('/message', function (Request $request) {
 });
 
 Route::controller(AuthController::class)->group(function () {
+    // CORE
     Route::post('login', 'login');
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
 
+    // MISCELLANEOUS
+    Route::post('get-student', 'getStudent')->withoutMiddleware(['auth:api']);
+    Route::post('check-sanalkampus', 'checkSanalkampus')->withoutMiddleware(['auth:api']);
 });
 
 Route::controller(TodoController::class)->group(function () {
