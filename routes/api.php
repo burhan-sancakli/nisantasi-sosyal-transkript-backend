@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\ApplicationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -28,3 +30,13 @@ Route::controller(TodoController::class)->group(function () {
     Route::put('todo/{id}', 'update');
     Route::delete('todo/{id}', 'destroy');
 }); 
+Route::controller(ActivityController::class)->group(function () {
+    Route::get('/activities', 'index');
+}); 
+Route::controller(ApplicationController::class)->group(function () {
+    Route::get('/applications', 'index');
+    Route::post('/applications', 'store');
+    
+}); 
+
+
