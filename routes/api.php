@@ -36,7 +36,9 @@ Route::controller(ActivityController::class)->group(function () {
 Route::controller(ApplicationController::class)->group(function () {
     Route::get('/applications', 'index');
     Route::post('/applications', 'store');
-    
+    Route::post('/applications/{id}/accept', 'accept');
+    Route::post('/applications/{id}/reject', 'reject');
+    Route::post('/applications/{id}/object', 'object');
 }); 
 
 
