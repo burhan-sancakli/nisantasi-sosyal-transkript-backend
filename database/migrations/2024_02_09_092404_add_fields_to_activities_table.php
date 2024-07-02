@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_staff')->default(false)->after('name');
+        Schema::table('activities', function (Blueprint $table) {
+            $table->boolean('is_active')->default(true)->after('score');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_staff');
+        Schema::table('activities', function (Blueprint $table) {
+            $table->dropColumn('is_active');
         });
     }
 };

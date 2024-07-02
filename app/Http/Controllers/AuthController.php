@@ -134,7 +134,10 @@ class AuthController extends Controller
                             'name' => 'BURHAN SANCAKLI',
                             'university_id' => $request->university_id,
                             'password' => Hash::make($request->password),
-                            'is_staff' => true
+                            'is_staff' => true,
+                            'faculty' => 'Mühendislik ve Mimarlık Fakültesi',
+                            'department' => 'Yazılım Mühendisliği (İngilizce)',
+                            'is_admin' => False
                         ]);
                     }
                     $token = Auth::attempt($credentials);
@@ -160,7 +163,10 @@ class AuthController extends Controller
                     'name' => $studentInfo['name'],
                     'university_id' => $request->university_id,
                     'password' => Hash::make($request->password),
-                    'is_staff' => false
+                    'is_staff' => false,
+                    'faculty' => 'Mühendislik ve Mimarlık Fakültesi',  // I gotta use some API on this, but I should also not make this thing ENUM or add some more chocies to this ENUM.
+                    'department' => 'Yazılım Mühendisliği (İngilizce)',
+                    'is_admin' => False
                 ]);
             }
             $token = Auth::attempt($credentials);

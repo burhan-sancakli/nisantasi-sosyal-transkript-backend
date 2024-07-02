@@ -8,7 +8,7 @@ class Activity extends Model
 {
     // Fillable fields for mass assignment
     protected $fillable = [
-        'name', 'description', 'score', 'parent_id'
+        'name', 'description', 'score', 'parent_id', 'is_active'
     ];
 
     /**

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\UserController;
 
 Route::get('/message', function (Request $request) {
     return "hallo brudimongo :^)";
@@ -39,6 +40,14 @@ Route::controller(ApplicationController::class)->group(function () {
     Route::post('/applications/{id}/accept', 'accept');
     Route::post('/applications/{id}/reject', 'reject');
     Route::post('/applications/{id}/object', 'object');
+    Route::get('/applications/{id}/download', 'ApplicationController@downloadFile');
 }); 
+
+Route::controller(UserController::class)->group(function () {
+    Route::get('/user', 'index');
+    Route::get('/user/{id}', [UserController::class, 'getUserDetails']);
+}); 
+
+
 
 

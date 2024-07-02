@@ -4,21 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
     public function index(Request $request)
     {
         // Retrieve all applications
-        $applications = Application::all();
+        $applications = Application::all()->sortByDesc('id');
 
         // Check if the 'is_staff' query parameter is present
         $isStaff = $request->query('is_staff');
+        $studentId = $request->query('student_id');
+        $showAll = $request->query('show_all');
+        $staffId = $request->query("staff_id");
 
         $formattedApplications = $applications
-        ->filter(function ($application) use ($isStaff) {
+        ->filter(function ($application) use ($isStaff,$studentId,$showAll) {
             // If isStaff is true, include only the applications with a status of 'evaluating' or 'reevaluating'
-            return !$isStaff || $application->status === 'evaluating' || $application->status === 'reevaluating';
+            if($isStaff && $showAll){
+                return $application->status !== 'evaluating' && $application->status !== 'reevaluating';
+            } if($isStaff){
+                return $application->status === 'evaluating' || $application->status == 'reevaluating';
+            } else if (!$isStaff && $studentId == $application->student_id){
+                return True;
+            } else if (!$isStaff && !$studentId){
+                return True;
+            }
+            
         })
         ->map(function ($application) {
             // Format each application
@@ -63,6 +76,20 @@ class ApplicationController extends Controller
         $application = Application::create($validatedData);
 
         return response()->json($application, 201);
+    }
+
+    public function downloadFile($id)
+    {
+        $application = Application::findOrFail($id);
+
+        // Check if the file path exists
+        if (Storage::disk('public')->exists($application->file_path)) {
+            // If the file exists, create a downloadable response
+            return response()->download(storage_path("app/public/{$application->file_path}"));
+        } else {
+            // If the file does not exist, return an error response
+            return response()->json(['error' => 'File not found'], 404);
+        }
     }
 
     // Add other methods as needed

@@ -21,16 +21,17 @@ class ActivityController extends Controller
             return [
                 'id' => $activity->id,
                 'name' => $activity->name,
+                'is_active'=> $activity->is_active,
                 'children' => $activity->children->map(function ($child) {
                     return [
                         'id' => $child->id,
                         'name' => $child->name,
-                        'points' => $child->score  // Assuming 'points' should map to 'score'
+                        'points' => $child->score,  // Assuming 'points' should map to 'score'
+                        'is_active'=> $child->is_active,
                     ];
                 }),
             ];
         });
-
         return response()->json($activities);
     }
 
